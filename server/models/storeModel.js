@@ -3,8 +3,7 @@ const { Schema } = mongoose;
 
 const storeSchema = new Schema({
   storeName: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Store",
+    type: String,
     required: true,
   },
   owner: {
@@ -12,6 +11,13 @@ const storeSchema = new Schema({
     ref: "User",
     required: true,
   },
+
+  products: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Products",
+    },
+  ],
 });
 
 const StoreModel = mongoose.model("Store", storeSchema);

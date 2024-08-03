@@ -2,12 +2,23 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const productRoutes = require("./routes/productsRoutes");
+const authRoutes = require("./routes/authRoutes");
+const cookieParser = require("cookie-parser");
 
-const PORT = 3000;
-const MONGODB_URI = "mongodb://localhost:27017/SariScan";
+require("dotenv").config();
+
+const { MONGODB_URI, PORT } = process.env;
+
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+app.use(cookieParser());
 
 app.use(express.json());
 
@@ -21,6 +32,7 @@ mongoose
   });
 
 app.use("/api", productRoutes);
+app.use("/", authRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running at port ${PORT}`);

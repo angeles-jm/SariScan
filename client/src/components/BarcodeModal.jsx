@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
 import ToggleButton from "../components/ToggleButton";
-import useProducts from "../hooks/useProducts";
 
 const BarcodeModal = ({ onClose, product, error, fetchProduct }) => {
   const videoRef = useRef(null);
