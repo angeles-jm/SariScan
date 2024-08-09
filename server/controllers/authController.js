@@ -2,11 +2,12 @@ const User = require("../models/userModel");
 const { createSecretToken } = require("../utils/SecretToken");
 const bcrypt = require("bcryptjs");
 
-module.exports.Signup = async (req, res, next) => {
+exports.Signup = async (req, res) => {
   try {
     const { email, password, username, createdAt } = req.body;
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
+    const existingEmail = await User.findOne({ email });
+    const existingUsername = await User.findOne({ username });
+    if (existingEmail && existingUsername) {
       return res.json({ message: "User already exists" });
     }
     const user = await User.create({ email, password, username, createdAt });
@@ -17,8 +18,17 @@ module.exports.Signup = async (req, res, next) => {
     });
     res
       .status(201)
-      .json({ message: "User signed in successfully", success: true, user });
-    next();
+      .json({ message: "User signed up successfully", success: true, user });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+exports.Login = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    const user = await User.findOne({ email });
   } catch (error) {
     console.error(error);
   }

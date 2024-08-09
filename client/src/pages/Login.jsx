@@ -11,7 +11,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${API}/api/login`, formData);
+      const response = await axios.post(`${API}/api/signup`, formData);
 
       console.log("Form data successfully submitted!");
       console.log(response.data);
@@ -33,17 +33,6 @@ const Login = () => {
         className="flex flex-col justify-center items-center w-screen max-w-sm "
       >
         <h2 className="font-bold text-2xl">Sign In</h2>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Email:
-          </label>
-          <input
-            type="text"
-            name="email"
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Username:
