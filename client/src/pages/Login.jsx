@@ -11,7 +11,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${API}/api/signup`, formData);
+      const response = await axios.post(`${API}/api/login`, formData);
 
       console.log("Form data successfully submitted!");
       console.log(response.data);

@@ -28,7 +28,23 @@ exports.Login = async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    const user = await User.findOne({ email });
+    if (!username && !password) {
+      return res.json({ message: "All fields are required!" });
+    }
+
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.json({ message: "Incorrect password or username" });
+    }
+
+    const token = createSecretToken(user._id);
+    res.cookie("token", token, {
+      withCredentials: true,
+      httpOnly: false,
+    });
+    res
+      .status(201)
+      .json({ message: "User logged in successfully", success: true });
   } catch (error) {
     console.error(error);
   }
