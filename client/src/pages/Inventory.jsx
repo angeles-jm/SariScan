@@ -4,6 +4,7 @@ import ItemsList from "../components/ItemsList";
 import AddProducts from "../components/AddProducts";
 import axios from "axios";
 import { CiFilter } from "react-icons/ci";
+import { useAuth } from "../context/AuthContext";
 
 // Search
 // Filter

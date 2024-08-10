@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const API = "http://localhost:3000";
 
@@ -32,7 +33,7 @@ const Signup = () => {
         onSubmit={handleSubmit}
         className="flex flex-col justify-center items-center w-screen max-w-sm "
       >
-        <h2 className="font-bold text-2xl">Sign In</h2>
+        <h2 className="font-bold text-2xl">Sign Up</h2>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Email:
@@ -69,9 +70,12 @@ const Signup = () => {
         </div>
         <div className="flex items-center justify-between">
           <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            Sign In
+            Sign Up
           </button>
         </div>
+        <span>
+          Already have an account? <Link to={"/login"}>Signup</Link>
+        </span>
       </form>
     </div>
   );
