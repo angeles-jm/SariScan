@@ -32,6 +32,24 @@ exports.getProduct = async (req, res) => {
   }
 };
 
+exports.getProductByBarcode = async (req, res) => {
+  try {
+    const product = await Products.findOne({ barcode: req.params.barcode });
+
+    if (!product) {
+      return res
+        .status(404)
+        .json({ message: "Product not found. Create this product first!" });
+    }
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({
+      message: "Error checking the product.",
+      error: error.message,
+    });
+  }
+};
+
 exports.createProducts = async (req, res) => {
   try {
     // Check if product already exist

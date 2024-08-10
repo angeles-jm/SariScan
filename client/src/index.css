@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.scanner-guide {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.scanner-guide::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+  height: 50%;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}

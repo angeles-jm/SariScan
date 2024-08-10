@@ -6,6 +6,11 @@ router.get("/products", productsController.getProducts);
 
 router.get("/products/:id", productsController.getProduct);
 
+router.get(
+  "/products/barcode/:barcode",
+  productsController.getProductByBarcode
+);
+
 router.post("/products", productsController.createProducts);
 
 module.exports = router;
