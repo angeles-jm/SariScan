@@ -11,6 +11,7 @@ const userSchema = new Schema({
   username: { type: String, require: [true, "Username is required!"] },
   password: { type: String, required: [true, "Your password is required"] },
   createdAt: { type: Date, default: new Date() },
+  store: [{ type: mongoose.Schema.Types.ObjectId, ref: "Store" }],
 });
 
 userSchema.pre("save", async function () {

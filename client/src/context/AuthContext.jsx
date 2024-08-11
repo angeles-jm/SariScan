@@ -8,7 +8,7 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [cookie, setCookie, removeCookie] = useCookies([]);
+  const [cookie, removeCookie] = useCookies([]);
   const navigate = useNavigate();
 
   useEffect(() => {

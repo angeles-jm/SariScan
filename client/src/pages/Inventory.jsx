@@ -26,7 +26,7 @@ const Inventory = () => {
       setAllProducts(response.data);
       setLoading(false);
     } catch (error) {
-      setError(products.message, error.message);
+      setError("Product not found!", error.message);
       setLoading(false);
     }
   };
