@@ -4,6 +4,7 @@ import BarcodeModal from "./BarcodeModal";
 import useProducts from "../hooks/useProducts";
 import axios from "axios";
 import Alert from "@mui/material/Alert";
+import { useStore } from "../context/StoreContext";
 
 const API = "http://localhost:3000";
 
@@ -12,12 +13,16 @@ const AddProducts = () => {
   const [isBarcodeVisible, setIsBarcodeVisible] = useState(false);
   const { product, error, fetchProduct } = useProducts();
   const [formAddProduct, setFormAddProduct] = useState({
-    barcode: "",
-    name: "",
-    imageUrl: "",
-    price: "",
+    products: {
+      barcode: "",
+      name: "",
+      imageUrl: "",
+      price: "",
+    },
   });
   const [formError, setFormError] = useState("");
+
+  const { storeId } = useStore();
 
   useEffect(() => {
     if (formError !== "") {
@@ -28,10 +33,12 @@ const AddProducts = () => {
 
   useEffect(() => {
     setFormAddProduct({
-      barcode: product.barcode || "",
-      name: product.brand || "",
-      imageUrl: product.image_url || "",
-      price: "",
+      products: {
+        barcode: product.barcode || "",
+        name: product.brand || "",
+        imageUrl: product.image_url || "",
+        price: "",
+      },
     });
   }, [product]);
 
@@ -40,9 +47,17 @@ const AddProducts = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API}/api/products`, formAddProduct);
+      const response = await axios.post(
+        `${API}/api/stores/products/${storeId}`,
+        formAddProduct,
+        {
+          withCredentials: true,
+        }
+      );
       console.log("Form data submitted successfully:", response.data);
-      setFormAddProduct({ barcode: "", name: "", imageUrl: "", price: "" });
+      setFormAddProduct({
+        products: { barcode: "", name: "", imageUrl: "", price: "" },
+      });
       setShowModal(false);
     } catch (error) {
       setFormError(error.response.data.message);
@@ -50,9 +65,15 @@ const AddProducts = () => {
     }
   };
 
+  // Changes: In the backend, it is a nested object so we had to destructure it.
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormAddProduct({ ...formAddProduct, [name]: value });
+    setFormAddProduct((prevState) => ({
+      products: {
+        ...prevState.products,
+        [name]: value,
+      },
+    }));
   };
 
   return (

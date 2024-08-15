@@ -5,6 +5,7 @@ import { useStore } from "../context/StoreContext";
 const ItemsList = () => {
   const { storeProductAndBarcode, error, isLoading } = useStore();
 
+  // Loading animation(should change to its own Component)
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -13,6 +14,7 @@ const ItemsList = () => {
     );
   }
 
+  // Checker to see if the products length is empty.
   if (!storeProductAndBarcode || storeProductAndBarcode.length === 0) {
     return (
       <div className="text-center py-8">

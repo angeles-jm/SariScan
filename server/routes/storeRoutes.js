@@ -10,7 +10,7 @@ router.post(
 );
 
 router.post(
-  "/stores/products",
+  "/stores/products/:storeId",
   AuthMiddleware.authenticateUser,
   storeController.addProduct
 );

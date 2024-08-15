@@ -3,6 +3,7 @@ import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
 import ToggleButton from "../components/ToggleButton";
 import axios from "axios";
 import { Camera, XCircle, Package } from "lucide-react";
+import { useStore } from "../context/StoreContext";
 
 const Barcode = () => {
   const videoRef = useRef(null);
@@ -11,6 +12,8 @@ const Barcode = () => {
   const [error, setError] = useState(null);
   const [product, setProduct] = useState(null);
   const [isCameraActive, setIsCameraActive] = useState(true);
+
+  const { setProductBarcode } = useStore();
 
   const fetchProduct = async (barcode) => {
     const url = "http://localhost:3000";

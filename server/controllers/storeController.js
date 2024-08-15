@@ -57,8 +57,11 @@ exports.getStores = async (req, res) => {
 };
 
 exports.addProduct = async (req, res) => {
+  // To be added: checker if the barcode already exists to the users store
+
   try {
-    const { storeId, products } = req.body;
+    const { products } = req.body;
+    const { storeId } = req.params;
 
     console.log(storeId);
 
