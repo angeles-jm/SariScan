@@ -2,29 +2,32 @@ import React from "react";
 import { MdAddShoppingCart, MdOutlineInventory2 } from "react-icons/md";
 import { CiBarcode } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
-
-const data = [
-  {
-    id: 1,
-    name: "Inventory",
-    link: "/inventory",
-    icon: <MdOutlineInventory2 className="text-xl" />,
-  },
-  {
-    id: 2,
-    name: "Cart",
-    link: "/cart",
-    icon: <MdAddShoppingCart className="text-xl" />,
-  },
-  {
-    id: 3,
-    name: "Barcode",
-    link: "/barcode",
-    icon: <CiBarcode className="text-xl" />,
-  },
-];
+import { useStore } from "../context/StoreContext";
 
 const Navbar = () => {
+  const { storeId } = useStore();
+
+  const data = [
+    {
+      id: 1,
+      name: "Inventory",
+      link: `/inventory/${storeId}`,
+      icon: <MdOutlineInventory2 className="text-xl" />,
+    },
+    {
+      id: 2,
+      name: "Cart",
+      link: "/cart",
+      icon: <MdAddShoppingCart className="text-xl" />,
+    },
+    {
+      id: 3,
+      name: "Barcode",
+      link: "/barcode",
+      icon: <CiBarcode className="text-xl" />,
+    },
+  ];
+
   return (
     <nav className="bg-emerald-500 shadow-md">
       <div className="container mx-auto">

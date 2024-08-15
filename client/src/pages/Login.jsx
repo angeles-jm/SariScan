@@ -13,7 +13,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/inventory");
+      navigate("/stores");
     }
   }, [user, navigate]);
 
@@ -34,7 +34,7 @@ const Login = () => {
         // Use loginAction to update the global auth state
         const loginSuccess = await loginAction(token);
         loginSuccess
-          ? navigate("/inventory")
+          ? navigate("/stores")
           : setError("Failed to update login state. Please try again.");
       } else {
         setError(message || "Login failed. Please check your credentials.");

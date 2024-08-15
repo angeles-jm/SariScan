@@ -4,7 +4,7 @@ const storeController = require("../controllers/storeController");
 const AuthMiddleware = require("../middlewares/AuthMiddleware");
 
 router.post(
-  "/stores",
+  "/create-stores",
   AuthMiddleware.authenticateUser,
   storeController.createStore
 );
@@ -16,9 +16,21 @@ router.post(
 );
 
 router.get(
+  "/get-stores",
+  AuthMiddleware.authenticateUser,
+  storeController.getStores
+);
+
+router.get(
   "/stores/products/:storeId",
   AuthMiddleware.authenticateUser,
-  storeController.getProducts
+  storeController.getStoreProducts
 );
+
+// router.get(
+//   "/stores/productbarcode/:storeId",
+//   AuthMiddleware.authenticateUser,
+//   storeController.getProductsByBarcode
+// );
 
 module.exports = router;
