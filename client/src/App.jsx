@@ -19,7 +19,7 @@ const App = () => {
         <StoreProvider>
           <Routes>
             {/* Public routes */}
-            <Route path="/" element={<Homepage />} />
+            <Route path="/home" element={<Homepage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
 
