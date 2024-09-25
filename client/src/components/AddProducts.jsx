@@ -8,7 +8,7 @@ import { useStore } from "../context/StoreContext";
 
 const API = "http://localhost:3000";
 
-const AddProducts = () => {
+const AddProducts = ({ onProductAdded }) => {
   const [showModal, setShowModal] = useState(false);
   const [isBarcodeVisible, setIsBarcodeVisible] = useState(false);
   const { product, error, fetchProduct } = useProducts();
@@ -21,7 +21,7 @@ const AddProducts = () => {
     },
   });
   const [formError, setFormError] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
   const { storeId } = useStore();
 
   useEffect(() => {
@@ -32,20 +32,23 @@ const AddProducts = () => {
   }, [formError]);
 
   useEffect(() => {
-    setFormAddProduct({
-      products: {
-        barcode: product.barcode || "",
-        name: product.brand || "",
-        imageUrl: product.image_url || "",
-        price: "",
-      },
-    });
+    if (product && Object.keys(product).length > 0) {
+      setFormAddProduct({
+        products: {
+          barcode: product.barcode || "",
+          name: product.brand || "",
+          imageUrl: product.image_url || "",
+          price: "",
+        },
+      });
+    }
   }, [product]);
 
   const handleCloseBarcodeModal = () => setIsBarcodeVisible(false);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const response = await axios.post(
         `${API}/api/stores/products/${storeId}`,
@@ -59,9 +62,14 @@ const AddProducts = () => {
         products: { barcode: "", name: "", imageUrl: "", price: "" },
       });
       setShowModal(false);
+      if (onProductAdded) {
+        onProductAdded(); // Call the callback function
+      }
     } catch (error) {
-      setFormError(error.response.data.message);
-      console.log(error);
+      setFormError(error.response?.data?.message || "An error occurred");
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -192,9 +200,14 @@ const AddProducts = () => {
               <div className="mt-6">
                 <button
                   type="submit"
-                  className="w-full px-4 py-2 bg-emerald-500 text-white font-medium rounded-md shadow-sm hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                  disabled={isLoading}
+                  className={`w-full px-4 py-2 font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 ${
+                    isLoading
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-emerald-500 text-white hover:bg-emerald-600"
+                  }`}
                 >
-                  ADD PRODUCT
+                  {isLoading ? "Adding..." : "ADD PRODUCT"}
                 </button>
               </div>
             </form>

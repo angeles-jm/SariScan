@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import SearchBar from "../components/SearchBar";
 import ItemsList from "../components/ItemsList";
 import AddProducts from "../components/AddProducts";
@@ -11,12 +11,20 @@ const Inventory = () => {
 
   const { storeId } = useParams();
 
-  useEffect(() => {
+  const fetchData = useCallback(() => {
     if (storeId) {
       setStoreId(storeId);
       fetchSpecificStore();
     }
   }, [storeId, setStoreId, fetchSpecificStore]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const handleProductAdded = () => {
+    fetchData();
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -44,7 +52,7 @@ const Inventory = () => {
 
         <div className="fixed bottom-0 left-0 right-0 py-4">
           <div className="container mx-auto px-4 flex justify-center">
-            <AddProducts />
+            <AddProducts onProductAdded={handleProductAdded} />
           </div>
         </div>
       </div>

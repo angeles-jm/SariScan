@@ -26,9 +26,40 @@ const Stores = () => {
 
   const navigate = useNavigate();
 
+  const [createStore, setCreateStore] = useState({
+    storeName: "",
+  });
+
   useEffect(() => {
     fetchStores();
   }, [fetchStores]);
+
+  const onCreateStore = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        `${API}/api/create-stores`,
+        createStore,
+        { withCredentials: true }
+      );
+
+      console.log("Form data submitted successfully:", response.data);
+      setCreateStore({
+        storeName: "",
+      });
+      fetchStores();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setCreateStore({
+      storeName: value,
+    });
+  };
 
   const handleClick = async (storeId) => {
     try {
@@ -41,6 +72,22 @@ const Stores = () => {
 
   return (
     <div className="max-h-screen w-screen  ">
+      <form
+        onSubmit={onCreateStore}
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/2 mt-2"
+      >
+        <input
+          onChange={handleChange}
+          name="storeName"
+          value={createStore.storeName}
+          type="text"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Store"
+        />
+        <button className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Create Store
+        </button>
+      </form>
       <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
         {isLoading
           ? "Loading..."
