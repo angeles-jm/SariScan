@@ -7,16 +7,16 @@ import { useStore } from "../context/StoreContext";
 import { useParams } from "react-router-dom";
 
 const Inventory = () => {
-  const { error, isLoading, setStoreId, fetchSpecificStore } = useStore();
+  const { setStoreId, fetchAllStoreProducts } = useStore();
 
   const { storeId } = useParams();
 
   const fetchData = useCallback(() => {
     if (storeId) {
       setStoreId(storeId);
-      fetchSpecificStore();
+      fetchAllStoreProducts();
     }
-  }, [storeId, setStoreId, fetchSpecificStore]);
+  }, [storeId, setStoreId, fetchAllStoreProducts]);
 
   useEffect(() => {
     fetchData();
@@ -37,14 +37,14 @@ const Inventory = () => {
           </div>
         </div>
 
-        {error && (
+        {/* {error && (
           <div
             className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-8 rounded-r-lg"
             role="alert"
           >
             <p>{error}</p>
           </div>
-        )}
+        )} */}
 
         <div className="mb-20">
           <ItemsList />

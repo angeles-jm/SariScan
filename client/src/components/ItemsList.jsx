@@ -3,9 +3,12 @@ import { ShoppingBag } from "lucide-react";
 import { useStore } from "../context/StoreContext";
 
 const ItemsList = () => {
-  const { storeProductAndBarcode, error, isLoading } = useStore();
+  const { storeProducts, error, isLoading } = useStore();
 
-  // Loading animation(should change to its own Component)
+  useEffect(() => {
+    console.log("storeProducts:", storeProducts);
+  }, [storeProducts]);
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -14,8 +17,19 @@ const ItemsList = () => {
     );
   }
 
-  // Checker to see if the products length is empty.
-  if (!storeProductAndBarcode || storeProductAndBarcode.length === 0) {
+  if (error) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-red-500 text-lg">Error: {error}</p>
+      </div>
+    );
+  }
+
+  if (
+    !storeProducts ||
+    !Array.isArray(storeProducts) ||
+    storeProducts.length === 0
+  ) {
     return (
       <div className="text-center py-8">
         <p className="text-gray-500 text-lg">No products found.</p>
@@ -23,9 +37,21 @@ const ItemsList = () => {
     );
   }
 
-  // This will extract the nested object.
-  const allProducts =
-    storeProductAndBarcode[0]?.products.map((item) => item.products) || [];
+  const allProducts = storeProducts.flatMap((store) =>
+    Array.isArray(store.products)
+      ? store.products.map((item) => item.products || item)
+      : []
+  );
+
+  if (allProducts.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-gray-500 text-lg">
+          No products available in this store.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
@@ -38,20 +64,20 @@ const ItemsList = () => {
             <div className="flex-shrink-0">
               <img
                 src={
-                  product.imageUrl ||
+                  product?.imageUrl ||
                   "https://via.placeholder.com/150?text=No+Image"
                 }
-                alt={product.name || "Product"}
+                alt={product?.name || "Product"}
                 className="h-20 w-20 object-contain rounded-md"
               />
             </div>
             <div className="ml-4 flex-grow">
               <h3 className="text-lg font-semibold text-gray-900 truncate">
-                {product.name || "Unnamed Product"}
+                {product?.name || "Unnamed Product"}
               </h3>
               <p className="text-emerald-600 font-medium mt-1">
                 PHP{" "}
-                {typeof product.price === "number"
+                {typeof product?.price === "number"
                   ? product.price.toFixed(2)
                   : "N/A"}
               </p>

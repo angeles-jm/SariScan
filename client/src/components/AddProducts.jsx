@@ -33,14 +33,15 @@ const AddProducts = ({ onProductAdded }) => {
 
   useEffect(() => {
     if (product && Object.keys(product).length > 0) {
-      setFormAddProduct({
+      setFormAddProduct((prevState) => ({
         products: {
-          barcode: product.barcode || "",
-          name: product.brand || "",
-          imageUrl: product.image_url || "",
-          price: "",
+          ...prevState.products,
+          barcode: product.barcode || prevState.products.barcode,
+          name: product.brand || prevState.products.name,
+          imageUrl: product.image_url || prevState.products.imageUrl,
+          price: prevState.products.price, // Keep the existing price
         },
-      });
+      }));
     }
   }, [product]);
 
@@ -137,7 +138,7 @@ const AddProducts = ({ onProductAdded }) => {
                       required
                       type="text"
                       name="barcode"
-                      value={product.barcode || formAddProduct.barcode}
+                      value={formAddProduct.products.barcode}
                       onChange={handleChange}
                       className="flex-grow min-w-0 block w-full px-3 py-2 rounded-none rounded-l-md border border-gray-300 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                       placeholder="Input barcode or scan"
@@ -162,7 +163,7 @@ const AddProducts = ({ onProductAdded }) => {
                     required
                     type="text"
                     name="name"
-                    value={product.brand || formAddProduct.name}
+                    value={formAddProduct.products.name}
                     onChange={handleChange}
                     className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                   />
@@ -176,7 +177,7 @@ const AddProducts = ({ onProductAdded }) => {
                     required
                     type="text"
                     name="imageUrl"
-                    value={product.image_url || formAddProduct.imageUrl}
+                    value={formAddProduct.products.imageUrl}
                     onChange={handleChange}
                     className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                   />
@@ -190,7 +191,7 @@ const AddProducts = ({ onProductAdded }) => {
                     required
                     type="number"
                     name="price"
-                    value={formAddProduct.price}
+                    value={formAddProduct.products.price}
                     onChange={handleChange}
                     className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                   />

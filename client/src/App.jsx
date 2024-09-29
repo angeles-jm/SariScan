@@ -7,7 +7,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Inventory from "./pages/Inventory";
 import Barcode from "./pages/Barcode";
-import Store from "./components/Store";
+import Store from "./components/StoreCart";
 import Layout from "./layout/Layout";
 import Stores from "./pages/Stores";
 import { StoreProvider } from "./context/StoreContext";

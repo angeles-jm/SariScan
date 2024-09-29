@@ -54,14 +54,6 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const getStore = async (storeId) => {
-    try {
-      const { data } = await axios.get("http://localhost:3000/api/");
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const logOut = () => {
     setUser(null);
     removeCookie("token");

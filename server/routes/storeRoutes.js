@@ -27,10 +27,10 @@ router.get(
   storeController.getStoreProducts
 );
 
-// router.get(
-//   "/stores/productbarcode/:storeId",
-//   AuthMiddleware.authenticateUser,
-//   storeController.getProductsByBarcode
-// );
+router.get(
+  "/stores/product-barcode/:storeId",
+  AuthMiddleware.authenticateUser,
+  storeController.getProductByBarcode
+);
 
 module.exports = router;
